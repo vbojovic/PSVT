@@ -1,18 +1,8 @@
-var app = angular.module('myApp', []);
-
-//app.controller('methodController', ["$scope", function ($scope) {
-
-var autoCheck=function(name,expectedValue){
-    $('input[name="'+name+'"]').each(function(){
-      $(this).parent().removeClass('checked'); 
-      if ($(this).val()==expectedValue){
-        $(this).parent().addClass('checked'); 
-      }
-    });
-};
-app.controller('methodController', function ($scope,$log) {
+app.controller('visualizationController', function ($scope,$log,$rootScope,$route ) {
+    $scope.visible=true;
     $scope.$watchCollection('model', function(newValue, oldValue) {
       $scope.model.methodTitle = $scope.model.calc.methods[$scope.model.method]; 
+      $rootScope.applyIfPossible($scope);
     });
     $scope.model={};
     $scope.model.methodTitle = 'Helical wheel';
@@ -25,14 +15,49 @@ app.controller('methodController', function ($scope,$log) {
     $scope.model.seq = "";
     $scope.model.defaultColoring=1;
     $scope.model.useAACodes=1;
+    $scope.model.data = [];
     $scope.model.switch=function(varName){
         $scope.model[varName] = ($scope.model[varName]==undefined || $scope.model[varName]==0 || $scope.model[varName]=='0') ? 1 : 0;
     };
+$scope.$on('$locationChangeStart', function(event) {
+    $scope.$apply();
+});
 
-     
- 
-    //TODO set resolution
-    
+    $scope.init=function(){
+        $scope.model.strucType='twist';
+        console.log('initovano');
+//        $route.reload();
+//        $(document).ready(function(){
+//        $rootScope.autoCheck("rbScaleName",$scope.model.scaleName);
+//        $rootScope.autoCheck("method",$scope.model.method);
+//        $rootScope.autoCheck("strucType",$scope.model.strucType);   
+//            $scope.$apply();
+//             console.log('1');
+////        });
+//
+//        angular.element(document).ready(function () {
+//            $rootScope.autoCheck("rbScaleName",$scope.model.scaleName);
+//            $rootScope.autoCheck("method",$scope.model.method);
+//            $rootScope.autoCheck("strucType",$scope.model.strucType);
+//            console.log('2');
+//        });        
+//        console.log('3');
+//        autoCheck()
+    };
+    $scope.viewNumericOutput=function(){
+        $('#numericOutputModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus');
+            $scope.model.calc.printTable($scope.model.calc.getData(),true);
+            $scope.model.data = $scope.model.calc.getData();
+          });
+    };
+    $scope.export=function(){
+        $scope.model.calc.exportToImage();
+    };
+//    $scope.$watch('model', function(oldVal,newVal) {
+//        console.log(newVal);
+//    });
+
     $scope.model.draw=function(){
         if ($scope.model.seq == undefined || $scope.model.seq == '') {
             new PNotify({
@@ -59,9 +84,11 @@ app.controller('methodController', function ($scope,$log) {
     };
     
         
-    $(document).ready(function (){
-        autoCheck("rbScaleName",$scope.model.scaleName);
-        autoCheck("method",$scope.model.method);
+//    $(document).ready(function (){
+    angular.element(document).ready(function () {
+        $rootScope.autoCheck("rbScaleName",$scope.model.scaleName);
+        $rootScope.autoCheck("method",$scope.model.method);
+        $rootScope.autoCheck("strucType",$scope.model.strucType);
     });
 
 //    $scope.$digest();
