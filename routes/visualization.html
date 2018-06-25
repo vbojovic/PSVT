@@ -1,0 +1,298 @@
+<div class="right_col" role="main"  ng-controller="visualizationController" ng-init="init()" >
+    <br />
+
+    <div class="row" ng-init="model.method = 'helicalWheel'"> 
+        <!--SEQ-->                        
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel tile fixed_height_320">
+                <div class="x_title">
+                    <h2>Sequence <small>Put protein primary structure below</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <!--<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>-->
+                        <!--</li>-->
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="demo-container" style="height:280px">
+                        <textarea  id="sequence" width="100%" style="width:100%; height: 80%;" ng-model="model.seq"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Scales/coloring-->
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel tile fixed_height_320">
+                <div class="x_title">
+                    <h2>Scales/coloring <small>For extra scales click <a target="blank" href="ftp://ftp.genome.jp/pub/db/community/aaindex/aaindex1">here</a></small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <!--                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                                </li>-->
+                    </ul>  
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content"  >
+                    <div class="form-group" id="grp2">
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <div class="checkbox"  >
+                                <label class="" ng-click="model.switch('defaultColoring');">
+                                    <!--ng-checked="model.defaultColoring = '1'"-->
+                                    <div class="iradio_flat-green" style="position: relative;"><input type="checkbox"  name="cbDefaultColoring" checked="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Default coloring
+                                </label>
+                            </div> 
+                            <div class="radio" ng-repeat="scale in model.scales" >
+                                <label  ng-click="model.scaleName = scale">
+                                    <div class="iradio_flat-green" style="position: relative;">
+                                        <input type="radio" 
+                                               name="rbScaleName"  
+                                               class="flat" 
+                                               value="{{scale}}"
+                                               style="position: absolute; opacity: 0;"/>
+                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                                    </div> {{scale}}
+                                </label>
+                            </div> 
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </div>
+        <!--draw type-->
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel tile fixed_height_320"  >
+                <div class="x_title">
+                    <h2>Drawing type</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <!--                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                                                </li>-->
+                    </ul>  
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="form-group">
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <div class="checkbox"  >
+                                <label class=""  ng-click="model.switch('useAACodes');">
+                                    <div class="iradio_flat-green" style="position: relative;"><input type="checkbox"   name="useAACodes" checked="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Use codes of amino acids in graphics
+                                </label>
+                            </div>                                                 
+                            <div class="radio" >
+                                <label ng-click="model.method = 'hydroLine'">
+                                    <div class="iradio_flat-green" style="position: relative;">
+                                        <input type="radio"  
+                                               name="method" 
+                                               value="hydroLine"
+                                               class="flat" 
+                                               style="position: absolute; opacity: 0;"/>
+                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                                    </div> Hydrophobic line
+                                </label>
+                            </div>
+                            <div class="radio" >
+                                <label ng-click="model.method = 'helicalWheel'">
+                                    <div class="iradio_flat-green" style="position: relative;">
+                                        <input type="radio"  
+                                               name="method" 
+                                               value="helicalWheel"
+                                               class="flat" 
+                                               style="position: absolute; opacity: 0;"/>
+                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                                    </div> Helical wheel
+                                </label>
+                            </div>
+                            <div class="radio" >
+                                <label ng-click="model.method = 'star'">
+                                    <div class="iradio_flat-green" style="position: relative;">
+                                        <input type="radio"  
+                                               name="method" 
+                                               value="star"
+                                               class="flat" 
+                                               style="position: absolute; opacity: 0;"/>
+                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                                    </div> Star
+                                </label>
+                            </div>
+                            <div class="radio" >
+                                <label ng-click="model.method = 'archimedean'">
+                                    <div class="iradio_flat-green" style="position: relative;">
+                                        <input type="radio"  
+                                               name="method" 
+                                               class="flat" 
+                                               value="archimedean"
+                                               style="position: absolute; opacity: 0;"/>
+                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                                    </div> Archimedean spiral
+                                </label>
+                            </div>
+                            <div class="radio" >
+                                <label ng-click="model.method = 'horizontalSpiral'">
+                                    <div class="iradio_flat-green" style="position: relative;">
+                                        <input type="radio"  
+                                               name="method" 
+                                               class="flat" 
+                                               value="horizontalSpiral"
+                                               style="position: absolute; opacity: 0;"/>
+                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                                    </div> Horizontal spiral
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>                                    
+                </div>
+            </div>
+        </div>
+        <!--                    </div>
+                            <div class="row"> -->
+        <!--Options-->
+        <!--                        <div class="col-md-4 col-sm-4 col-xs-12">
+        
+                                </div>
+        numerical-->
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="x_panel tile ">
+                <div class="x_title">
+                    <h2>Structure type</h2> 
+                    <div class="clearfix"></div>
+                </div>
+
+
+                <div class="radio" ng-repeat="struc in model.structures" >
+                    <label  ng-click="model.strucType = struc.key">
+                        <div class="iradio_flat-green" style="position: relative;">
+                            <input type="radio" 
+                                   name="strucType"  
+                                   class="flat" 
+                                   value="{{struc.key}}"
+                                   style="position: absolute; opacity: 0;"/>
+                            <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
+                        </div> {{struc.val}}
+                    </label>
+                </div> 
+
+                <!--                                <div class="x_content">
+                                                    <div class="demo-container" style="height:280px">
+                                                    </div>
+                                                    <table id="outputTable" class="table table-striped responsive-utilities jambo_table"></table>
+                                                </div>-->
+            </div>                        
+
+
+        </div>
+        <!--                        <div class="row" id="longDisplayRow" >
+        
+                                </div>-->
+
+        <!--plot-->
+        <div class="col-md-8 col-sm-8 col-xs-12" >
+            <!--fixed_height_4-->
+
+            <div class="x_panel tile " >
+                <div class="x_title"   >
+
+                    &nbsp;
+                    <button type="button" class="btn btn-round btn-danger" ng-click="model.draw();">Run</button>
+                    &nbsp;
+                    <button type="button" class="btn btn-round btn-info" ng-click="viewNumeric();" data-toggle="modal" data-target="#numericOutputModal">Numerical output</button>      
+                    &nbsp;
+                    <button type="button" class="btn btn-round btn-primary" ng-click="export();">Save image</button>                                          
+                    <div class="clearfix"></div>
+                    <h2>Graphical representation <small>(Draw method:{{model.methodTitle}},Scale name: {{model.scaleName}},Structure type: {{model.strucType}}), Default coloring: {{model.defaultColoring}}</small></h2>
+                    <div class="clearfix"></div>
+
+
+                </div>
+                <div class="x_content">
+                    <div class="demo-container" >
+                        <svg id="aminoDisplay" width="500" height="500" class="scaled-svg"></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+                <div class="modal" tabindex="-1" role="dialog" id="numericOutputModal">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Numerical output</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                        <h1 ng-show="model.calc.getSummaryData().length>0">Summary data</h1>
+                        <p ng-repeat="row in model.calc.getSummaryData()">AAA</p>
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">#</th>
+                                          <th scope="col">First</th>
+                                          <th scope="col">Last</th>
+                                          <th scope="col">Handle</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <th scope="row">1</th>
+                                          <td>Mark</td>
+                                          <td>Otto</td>
+                                          <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                          <th scope="row">2</th>
+                                          <td>Jacob</td>
+                                          <td>Thornton</td>
+                                          <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                          <th scope="row">3</th>
+                                          <td colspan="2">Larry the Bird</td>
+                                          <td>@twitter</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>                        
+                        <br>
+                        <h1 ng-show="model.calc.getData().length>0">Detailed output</h1>
+                        <p ng-repeat="row in model.calc.getData()">podatki</p>
+                                    <table class="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">#</th>
+                                          <th scope="col">First</th>
+                                          <th scope="col">Last</th>
+                                          <th scope="col">Handle</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <th scope="row">1</th>
+                                          <td>Mark</td>
+                                          <td>Otto</td>
+                                          <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                          <th scope="row">2</th>
+                                          <td>Jacob</td>
+                                          <td>Thornton</td>
+                                          <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                          <th scope="row">3</th>
+                                          <td colspan="2">Larry the Bird</td>
+                                          <td>@twitter</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>                        
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+    </div>    
+
+</div>

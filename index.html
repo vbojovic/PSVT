@@ -20,7 +20,7 @@
         <!-- Custom styling plus plugins -->
         <link href="css/custom.css" rel="stylesheet">
         <link href="css/svg.css" rel="stylesheet">
-        
+
         <link rel="stylesheet" type="text/css" href="css/maps/jquery-jvectormap-2.0.3.css" />
         <link href="css/icheck/flat/green.css" rel="stylesheet" />
         <!--<link href="css/floatexamples.css" rel="stylesheet" type="text/css" />-->
@@ -32,13 +32,26 @@
         <script src="js/Scales.js"></script>
         <script src="js/Descriptions.js"></script>
         <script src="js/d3.v3.min.js" charset="utf-8"></script>
-        
+
         <script type="text/javascript" src="js/notify/pnotify.core.js"></script>
         <script type="text/javascript" src="js/notify/pnotify.buttons.js"></script>
 
         <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>-->
         <script src="js/angular.min.js"></script>
-        <script src="js/logic.js"></script>
+        <script src="//code.angularjs.org/1.4.5/angular-route.js"></script>
+        <script src="js/init.js"></script>
+        <script src="js/Blob.js"></script>
+
+        <!--<script async="" src="https://cdn.rawgit.com/eligrey/canvas-toBlob.js/f1a01896135ab378aa5c0118eadd81da55e698d8/canvas-toBlob.js"/>-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/javascript-canvas-to-blob/3.14.0/js/canvas-to-blob.min.js"></script>
+        <!--<script async="" src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"/>-->
+        <script type="text/javascript" src="js/FileSaver.js"></script>
+
+        <!--<script src="js/D3ImageExporter.js"></script>-->
+        <script src="js/controllers/rootController.js"></script>
+        <script src="js/controllers/visualizationController.js"></script>
+        <script src="js/controllers/analysisController.js"></script>
+        <script src="js/controllers/statisticsController.js"></script>
         <!--[if lt IE 9]>
               <script src="../assets/js/ie8-responsive-file-warning.js"></script>
               <![endif]-->
@@ -51,335 +64,137 @@
 
     </head>
 
+    <body class="nav-md" ng-app="myApp" >
+        <div ng-controller="rootController" ng-show="false" ng-init="init()"></div>
 
-    <body class="nav-md">
-
-     
-        <div class="container body" ng-app="myApp" ng-controller="methodController">
+        
+        
+        <div class="container body" >
             <form>
-            <div class="main_container">
-                <div class="col-md-3 left_col">
-                    <div class="left_col scroll-view">
+                <div class="main_container">
+                    <div class="col-md-3 left_col">
+                        <div class="left_col scroll-view">
 
-                        <div class="navbar nav_title" style="border: 0;">
-                            <a  class="site_title"><i class="fa fa-adn"></i> <span>AMP workshop</span></a>
-                        </div>
-                        <div class="clearfix"></div>
-
-
-                        <br />
-
-                        <!-- sidebar menu -->
-                        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" >
-
-                            <div class="menu_section"  > 
-                                <ul class="nav side-menu ">
-                                    <!--pull-left-->
-                                    <li><a><i class="fa fa-home"  ></i> Home <span class="fa fa-chevron-right"></span></a>
-                                    </li>
-
-                                    <li class="active"><a><i class="fa fa-bar-chart-o" ></i> Structure <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu open " style="display: block;" ng-repeat="struc in model.structures" >
-                                            <li><a href="" ng-click="model.strucType=struc.key" >{{struc.val}}</a></li>
-                                        </ul>
-                                    </li>
-<!--                                    <li><a><i class="fa fa-calculator"></i> Data analysis <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu" style="display: none">
-                                            <li><a   class="menuDataHydroMom">Hydrophobic moment</a></li>
-                                        </ul> 
-                                    </li>-->
-                                </ul>
+                            <div class="navbar nav_title" style="border: 0;">
+                                <a  class="site_title"><i class="fa fa-adn"></i> <span>PSVT</span></a>
                             </div>
+                            <div class="clearfix"></div>
 
 
-                        </div>
+                            <br />
 
-                    </div>
-                </div>
+                            <!-- sidebar menu -->
+                            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu" >
 
-                <!-- top navigation -->
-                <div class="top_nav">
-
-                    <div class="nav_menu">
-                        <nav class="" role="navigation">
-                            <div class="nav toggle">
-                                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-                            </div>
-
-                        </nav>
-                    </div>
-
-                </div>
-                <!-- /top navigation -->
-
-
-                <!-- page content -->
-                <div class="right_col" role="main"  ng-init="model.method = 'helicalWheel'">
-                    <br />
-
-                    <div class="row"> 
-<!--SEQ-->                        
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="x_panel tile fixed_height_320">
-                                <div class="x_title">
-                                    <h2>Sequence <small>Put protein primary structure below</small></h2>
-                                    <ul class="nav navbar-right panel_toolbox">
-                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                <div class="menu_section"  > 
+                                    <ul class="nav side-menu ">
+                                        <!--pull-left-->
+                                        <li><a href="#/"><i class="fa fa-home"  ></i> Home <span class="fa fa-chevron-right"></span></a>
                                         </li>
+
+                                        <li class="active"><a href="#visualization"><i class="fa fa-bar-chart-o" ></i> Visualization <span class="fa fa-chevron-right"></span></a>
+                                            <!--                                        <ul class="nav child_menu open " style="display: block;" ng-repeat="struc in model.structures" >
+                                                                                        <li><a href="" ng-click="model.strucType=struc.key" >{{struc.val}}</a></li>
+                                                                                    </ul>-->
+                                        </li>
+                                        <li class="active"><a href="#statistics"><i class="fa fa-calculator" ></i> Statistics <span class="fa fa-chevron-right"></span></a>
+                                        </li>
+                                        <li class="active"><a href="#analysis"><i class="fa fa-bar-chart-o" ></i> Analysis <span class="fa fa-chevron-right"></span></a>
+                                        </li>                            
+<!--                                        <li><a><i class="fa fa-calculator"></i> Data analysis <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu" style="display: none">
+                                                <li><a   class="menuDataHydroMom">Hydrophobic moment</a></li>
+                                            </ul> 
+                                        </li>-->
                                     </ul>
-                                    <div class="clearfix"></div>
                                 </div>
-                                <div class="x_content">
-                                    <div class="demo-container" style="height:280px">
-                                        <textarea  id="sequence" width="100%" style="width:100%; height: 80%;" ng-model="model.seq"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-<!--Scales/coloring-->
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="x_panel tile fixed_height_320">
-                                <div class="x_title">
-                                    <h2>Scales/coloring <small>For extra scales click <a target="blank" href="ftp://ftp.genome.jp/pub/db/community/aaindex/aaindex1">here</a></small></h2>
-                                    <ul class="nav navbar-right panel_toolbox">
-                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                        </li>
-                                    </ul>  
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="x_content"  >
-                                    <div class="form-group" id="grp2">
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <div class="radio" ng-repeat="scale in model.scales" >
-                                                <label  ng-click="model.scaleName=scale">
-                                                    <div class="iradio_flat-green" style="position: relative;">
-                                                        <input type="radio" 
-                                                               name="rbScaleName"  
-                                                               class="flat" 
-                                                               value="{{scale}}"
-                                                               style="position: absolute; opacity: 0;"/>
-                                                        <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
-                                                    </div> {{scale}}
-                                                </label>
-                                            </div> 
-                                        </div>
-                                    </div>    
-                                </div>
-                            </div>
-                        </div>
-<!--draw type-->
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="x_panel tile fixed_height_320"  >
-                                <div class="x_title">
-                                    <h2>Drawing type</h2>
-                                    <ul class="nav navbar-right panel_toolbox">
-                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                        </li>
-                                    </ul>  
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="x_content">
-                                    <div class="form-group">
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <div class="radio" >
-                                                <label ng-click="model.method='hydroLine'">
-                                                    <div class="iradio_flat-green" style="position: relative;">
-                                                         <input type="radio"  
-                                                               name="method" 
-                                                               value="hydroLine"
-                                                               class="flat" 
-                                                               style="position: absolute; opacity: 0;"/>
-                                                         <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
-                                                    </div> Hydrophobic line
-                                                </label>
-                                            </div>
-                                            <div class="radio" >
-                                                <label ng-click="model.method='helicalWheel'">
-                                                    <div class="iradio_flat-green" style="position: relative;">
-                                                         <input type="radio"  
-                                                               name="method" 
-                                                               value="helicalWheel"
-                                                               class="flat" 
-                                                               style="position: absolute; opacity: 0;"/>
-                                                         <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
-                                                    </div> Helical wheel
-                                                </label>
-                                            </div>
-                                            <div class="radio" >
-                                                <label ng-click="model.method='star'">
-                                                    <div class="iradio_flat-green" style="position: relative;">
-                                                         <input type="radio"  
-                                                               name="method" 
-                                                               value="star"
-                                                               class="flat" 
-                                                               style="position: absolute; opacity: 0;"/>
-                                                         <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
-                                                    </div> Star
-                                                </label>
-                                             </div>
-                                            <div class="radio" >
-                                                <label ng-click="model.method='archimedean'">
-                                                    <div class="iradio_flat-green" style="position: relative;">
-                                                         <input type="radio"  
-                                                               name="method" 
-                                                               class="flat" 
-                                                               value="archimedean"
-                                                               style="position: absolute; opacity: 0;"/>
-                                                         <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
-                                                    </div> Archimedean spiral
-                                                </label>
-                                             </div>
-                                            <div class="radio" >
-                                                <label ng-click="model.method='horizontalSpiral'">
-                                                    <div class="iradio_flat-green" style="position: relative;">
-                                                         <input type="radio"  
-                                                               name="method" 
-                                                               class="flat" 
-                                                               value="horizontalSpiral"
-                                                               style="position: absolute; opacity: 0;"/>
-                                                         <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins>
-                                                    </div> Horizontal spiral
-                                                </label>
-                                            </div>
- 
-                                        </div>
-                                    </div>                                    
-                                </div>
-                            </div>
-                        </div>
-<!--                    </div>
-                    <div class="row"> -->
-<!--Options-->
-                        <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="x_panel fixed_height_320">
-                                <div class="x_title">
-                                    <h2>Options</h2>
-                                    <ul class="nav navbar-right panel_toolbox">
-                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                        </li>
-                                    </ul>  
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="x_content"  >
-                                    <div class="form-group" id="grp2">
-                                        <div class="col-md-9 col-sm-9 col-xs-12">
-                                            <div class="checkbox"  >
-                                                <label class="" ng-click="model.switch('defaultColoring');">
-                                                     <!--ng-checked="model.defaultColoring = '1'"-->
-                                                     <div class="iradio_flat-green" style="position: relative;"><input type="checkbox"  name="cbDefaultColoring" checked="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Default coloring
-                                                </label>
-                                            </div> 
-                                            <div class="checkbox"  >
-                                                <label class=""  ng-click="model.switch('useAACodes');">
-                                                    <div class="iradio_flat-green" style="position: relative;"><input type="checkbox"   name="useAACodes" checked="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255) none repeat scroll 0% 0%; border: 0px none; opacity: 0;"></ins></div> Use codes of amino acids in graphics
-                                                </label>
-                                            </div> 
-                                        </div>
-                                    </div>                                    
-                                </div>
-                            </div>
-<!--                        </div>
-numerical
-                        <div class="col-md-4 col-sm-4 col-xs-12" >-->
-                            <div class="x_panel tile fixed_height_320">
-                                <div class="x_title">
-                                    <h2>Numerical results for <small>{{model.methodTitle}}</small></h2> 
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="x_content">
-                                    <!--<div class="demo-container" style="height:280px">-->
-                                    <!--</div>-->
-                                    <table id="outputTable" class="table table-striped responsive-utilities jambo_table"></table>
-                                </div>
-                            </div>                        
 
 
-                        </div>
-                        <!--<div class="row" id="longDisplayRow" >-->
-
-                        <!--</div>-->
-                
-<!--plot-->
-                        <div class="col-md-8 col-sm-8 col-xs-12" >
-                            <!--fixed_height_4-->
-                            <div class="x_panel tile " >
-                                <div class="x_title"   >
-                                    <h2>Graphical representation <small>(Draw method:{{model.methodTitle}},Scale name: {{model.scaleName}},Structure type: {{model.strucType}}), Default coloring: {{model.defaultColoring}}</small></h2>
-                                    &nbsp;
-                                    <button type="button" class="btn btn-round btn-primary" ng-click="model.draw();">Run</button>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="x_content">
-                                    <div class="demo-container" >
-                                        <svg id="aminoDisplay" width="500" height="500" class="scaled-svg"></svg>
-                                    </div>
-                                </div>
                             </div>
-                        </div>
- 
 
-                    </div>    
+                        </div>
+                    </div>
+
+                    <!-- top navigation -->
+                    <div class="top_nav">
+
+                        <div class="nav_menu">
+                            <nav class="" role="navigation">
+                                <div class="nav toggle">
+                                    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                                </div>
+
+                            </nav>
+                        </div>
+
+                    </div>
+                    <!-- /top navigation -->
+
+                    <div class="ng-view"></div>
+                    <!--<ng-view></ng-view>-->
+                    <!-- page content -->
+           
 
                 </div>
 
-            </div>
+                <!-- footer content -->
 
-            <!-- footer content -->
+                <footer>
+                    <div class="copyright-info">
+                        <p class="pull-right">Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>  
+                        </p>
+                    </div>
+                    <div class="clearfix"></div>
+                </footer>
+                <!-- /footer content -->
 
-            <footer>
-                <div class="copyright-info">
-                    <p class="pull-right">Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>  
-                    </p>
-                </div>
-                <div class="clearfix"></div>
-            </footer>
-            <!-- /footer content -->
+                    </form>
         </div>
-            </form>
+        
 
 
 
-        <div id="custom_notifications" class="custom-notifications dsp_none">
-            <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
-            </ul>
-            <div class="clearfix"></div>
-            <div id="notif-group" class="tabbed_notifications"></div>
-        </div>
 
-        <script src="js/bootstrap.min.js"></script>
+    <div id="custom_notifications" class="custom-notifications dsp_none">
+        <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+        </ul>
+        <div class="clearfix"></div>
+        <div id="notif-group" class="tabbed_notifications"></div>
+    </div>
 
-        <!-- gauge js -->
-        <!-- bootstrap progress js -->
-        <script src="js/nicescroll/jquery.nicescroll.min.js"></script>
-        <!-- icheck -->
-        <script src="js/icheck/icheck.min.js"></script>
-        <!-- daterangepicker -->
-        <script type="text/javascript" src="js/moment/moment.min.js"></script>
-        <script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
-        <!-- chart js -->
-        <script src="js/chartjs/chart.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
-        <script src="js/custom.js"></script>
+    <!-- gauge js -->
+    <!-- bootstrap progress js -->
+    <script src="js/nicescroll/jquery.nicescroll.min.js"></script>
+    <!-- icheck -->
+    <script src="js/icheck/icheck.min.js"></script>
+    <!-- daterangepicker -->
+    <script type="text/javascript" src="js/moment/moment.min.js"></script>
+    <script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
+    <!-- chart js -->
+    <script src="js/chartjs/chart.min.js"></script>
 
-        <!-- flot js -->
-        <!--[if lte IE 8]><script type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
+    <script src="js/custom.js"></script>
+
+    <!-- flot js -->
+    <!--[if lte IE 8]><script type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
 
 
-        <!-- worldmap -->
-        <script type="text/javascript" src="js/maps/jquery-jvectormap-2.0.3.min.js"></script>
-        <script type="text/javascript" src="js/maps/jquery-jvectormap-world-mill-en.js"></script>
-        <script type="text/javascript" src="js/maps/jquery-jvectormap-us-aea-en.js"></script>
-        <!-- pace -->
-        <script src="js/pace/pace.min.js"></script>
-        <script>
+    <!-- worldmap -->
+    <script type="text/javascript" src="js/maps/jquery-jvectormap-2.0.3.min.js"></script>
+    <script type="text/javascript" src="js/maps/jquery-jvectormap-world-mill-en.js"></script>
+    <script type="text/javascript" src="js/maps/jquery-jvectormap-us-aea-en.js"></script>
+    <!-- pace -->
+    <script src="js/pace/pace.min.js"></script>
+    <script>
 
-        </script>
-        <!-- skycons -->
-        <script src="js/skycons/skycons.min.js"></script>
+    </script>
+    <!-- skycons -->
+    <script src="js/skycons/skycons.min.js"></script>
 
-        <!-- /footer content -->
-            
-    </body>
+    <!-- /footer content -->
+
+</body>
 
 </html>
